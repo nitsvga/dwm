@@ -43,7 +43,7 @@ static Sp scratchpads[] = {
 
 /* tagging */
 /* static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" }; */
-static const char *tags[] = { "", "", "ﭮ", "", "", "󰎕", "󰈙", "󰈙", "" };
+static const char *tags[] = { "", "", "󰎕", "󰈙", "󰈙", "󰈙", "󰈙", "󰈙", "" };
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -52,10 +52,7 @@ static const Rule rules[] = {
 	*/
 	/* class    instance      title       	 tags mask    isfloating   isterminal  noswallow  monitor */
 	{ "Gimp",     NULL,       NULL,       	    1 << 8,       0,           0,         0,        -1 },
-	{ "discord",  NULL,       NULL,       	    1 << 2,       0,           0,         0,         1 },
-	{ NULL,       "qbittorrent",   NULL,       	    1 << 1,       0,           0,         0,        -1 },
-	{ NULL,       NULL,       "Steam",    	    1 << 4,       0,           0,         0,         0 },
-	{ NULL,       NULL,       "Default - Wine desktop",    	  1 << 4,      0,         0,         0, 0 },
+	{ NULL,       "Waterfox", NULL,       	    1 << 1,       0,           0,         0,        -1 },
 	{ TERMCLASS,  NULL,       NULL,       	    0,            0,           1,         0,        -1 },
 	{ NULL,       NULL,       "Event Tester",   0,            0,           0,         1,        -1 },
 	{ TERMCLASS,      "bg",        NULL,       	    1 << 7,       0,           1,         0,        -1 },
@@ -142,7 +139,7 @@ static Key keys[] = {
 	/* modifier                     key        function        argument */
 	STACKKEYS(MODKEY,                          focus)
 	STACKKEYS(MODKEY|ShiftMask,                push)
-	{ MODKEY|ShiftMask, XK_Escape,	spawn,	SHCMD(TERMINAL" -e nvim $DOCUMENTS/workspace/sources/dwm/config.h") }, 
+	{ MODKEY|ShiftMask, XK_Escape,	spawn,	SHCMD(TERMINAL" -e nvim $HOME/.local/sources/dwm/config.h") }, 
 	{ MODKEY,			XK_Delete,	spawn,	{.v = (const char*[]){ "dmenuunicode", NULL } } },
 	/* { MODKEY|ShiftMask,		XK_grave,	togglescratch,	SHCMD("") }, */
 	TAGKEYS(			XK_1,		0)
@@ -197,11 +194,11 @@ static Key keys[] = {
 	{ MODKEY,			XK_a,		togglegaps,	{0} },
 	{ MODKEY|ShiftMask,	XK_a,		defaultgaps,	{0} },
 	{ MODKEY,			XK_s,		togglesticky,	{0} },
-	{ MODKEY|ShiftMask, XK_s,   	spawn,		SHCMD("steam-screensaver-fix-runtime") }, 
-	{ MODKEY,			XK_d,		spawn,          {.v = (const char*[]){ "dmenu_run", NULL } } },
-	{ MODKEY|ShiftMask,	XK_d,		spawn,		SHCMD("discord-ptb") },
+	//{ MODKEY|ShiftMask, XK_s,   	spawn,		SHCMD("steam-screensaver-fix-runtime") }, 
+	{ MODKEY,			XK_d,		spawn,          {.v = (const char*[]){ "dmenu_run_recent", NULL } } },
+	//{ MODKEY|ShiftMask,	XK_d,		spawn,		SHCMD("discord-ptb") },
 	{ MODKEY,			XK_f,		togglefullscr,	{0} },
-	{ MODKEY|ShiftMask,	XK_f,		spawn,	{.v = (const char*[]){ BROWSER, NULL } } },
+	{ MODKEY|ShiftMask,	XK_f,		spawn,		SHCMD("cleanwaterfox") },
 	{ MODKEY,			XK_g,		shiftview,	{ .i = -1 } },
 	{ MODKEY|ShiftMask,	XK_g,		shifttag,	{ .i = -1 } },
 	{ MODKEY,			XK_h,		setmfact,	{.f = -0.05} },
@@ -209,7 +206,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,	XK_k,	    tagmon,		{.i = +1 } },
 	/* J and K are automatically bound above in STACKEYS */
 	{ MODKEY,			XK_l,		setmfact,      	{.f = +0.05} },
-	{ MODKEY|ShiftMask,	XK_l,		spawn,      	SHCMD("lutris") },
+	//{ MODKEY|ShiftMask,	XK_l,		spawn,      	SHCMD("lutris") },
 	{ MODKEY,			XK_semicolon,	shiftview,	{ .i = 1 } },
 	{ MODKEY|ShiftMask,	XK_semicolon,	shifttag,	{ .i = 1 } },
 	{ MODKEY,			XK_apostrophe,	togglescratch,	{.ui = 1} },
@@ -219,13 +216,13 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,	XK_Return,	togglescratch,	{.ui = 0} },
 
 	{ MODKEY,			    XK_z,		incrgaps,	{.i = +3 } },
-	{ MODKEY|ShiftMask,		XK_z,   	spawn,		SHCMD("maim -s | xclip -sel clip -t image/png") } ,
+	{ MODKEY|ShiftMask,		XK_z,		spawn,		SHCMD("maimpick") },
 	{ MODKEY,			    XK_x,		incrgaps,	{.i = -3 } },
 	{ MODKEY|ShiftMask,     XK_x,		spawn,		SHCMD(TERMINAL " -e nvim $HOME/.config/x11/xinitrc") },
 	{ MODKEY|ControlMask,   XK_x,		spawn,		SHCMD("pamixer -t --source 0") },
 	/* { MODKEY,			    XK_c,		spawn,		{.v = (const char*[]){ TERMINAL, "-e", "profanity", NULL } } }, */
-    { MODKEY,       		XK_c,		spawn,		SHCMD("corectrl") },
-	{ MODKEY|ShiftMask,		XK_c,		spawn,		SHCMD("cpu-x") },
+    //{ MODKEY,       		XK_c,		spawn,		SHCMD("corectrl") },
+	//{ MODKEY|ShiftMask,		XK_c,		spawn,		SHCMD("cpu-x") },
     { MODKEY|ShiftMask, 	XK_v,		spawn,		SHCMD("cleanvscodium") },
 	/* V is automatically bound above in STACKKEYS */
 	{ MODKEY,			    XK_b,		togglebar,	{0} },
@@ -254,8 +251,7 @@ static Key keys[] = {
 	{ MODKEY,			    XK_Insert,	spawn,		SHCMD("xdotool type $(grep -v '^#' ~/.local/share/larbs/snippets | dmenu -i -l 50 | cut -d' ' -f1)") },
 
 	{ MODKEY,			XK_F1,		spawn,		SHCMD("groff -mom /usr/local/share/dwm/larbs.mom -Tpdf | zathura -") },
-	{ MODKEY,			XK_F2,		spawn,		{.v = (const char*[]){ "tutorialvids", NULL } } },
-	/*{ MODKEY,			XK_F3,		spawn,		{.v = (const char*[]){ "displayselect", NULL } } },*/
+	{ MODKEY,			XK_F2,		spawn,		{.v = (const char*[]){ "", NULL } } },
 	{ MODKEY,			XK_F3,		spawn,		SHCMD("gpick -p") },
 	{ MODKEY,			XK_F4,		spawn,		SHCMD(TERMINAL " -e pulsemixer") },
 	/* { MODKEY,			XK_F5,		xrdb,		{.v = NULL } }, */
@@ -267,14 +263,14 @@ static Key keys[] = {
     { MODKEY|ShiftMask, XK_F9,		spawn,		SHCMD(TERMINAL" -e newsboat") },
 	{ MODKEY,			XK_F10,		spawn,		{.v = (const char*[]){ "dmenumount", NULL } } },
 	{ MODKEY,			XK_F11,		spawn,		{.v = (const char*[]){ "dmenuumount", NULL } } },
-	{ MODKEY,			XK_F12,		spawn,		SHCMD("setxkbmap latam & notify-send \"⌨️ Keyboard remapping...\" \"Re-running keyboard defaults for any newly plugged-in keyboards.\"") },
+	{ MODKEY,			XK_F12,		spawn,		SHCMD("setxkbmap us & notify-send \"⌨️ Keyboard remapping...\" \"Re-running keyboard defaults for any newly plugged-in keyboards.\"") },
 	{ MODKEY,			XK_space,	zoom,		{0} },
 	{ MODKEY|ShiftMask,	XK_space,	togglefloating,	{0} },
 
 	{ 0,				XK_Print,	spawn,		SHCMD("maim pic-full-$(date '+%y%m%d-%H%M-%S').png") },
 	{ ShiftMask,		XK_Print,	spawn,		{.v = (const char*[]){ "maimpick", NULL } } },
 	{ MODKEY,			XK_Print,	spawn,		{.v = (const char*[]){ "dmenurecord", NULL } } },
-	{ MODKEY|ShiftMask,	XK_Print,	spawn,		{.v = (const char*[]){ "dmenurecord", "kill", NULL } } },
+	{ MODKEY|ShiftMask,	XK_Print,	spawn,		{.v = (const char*[]){ "dmenurecord", NULL } } },
 	{ MODKEY,			XK_Delete,	spawn,		{.v = (const char*[]){ "dmenurecord", "kill", NULL } } },
 	{ MODKEY,			XK_Home,	spawn,		SHCMD("killall screenkey || screenkey &") },
 
@@ -304,8 +300,8 @@ static Key keys[] = {
 	{ 0, XF86XK_TouchpadToggle,	spawn,		SHCMD("(synclient | grep 'TouchpadOff.*1' && synclient TouchpadOff=0) || synclient TouchpadOff=1") },
 	{ 0, XF86XK_TouchpadOff,	spawn,		{.v = (const char*[]){ "synclient", "TouchpadOff=1", NULL } } },
 	{ 0, XF86XK_TouchpadOn,		spawn,		{.v = (const char*[]){ "synclient", "TouchpadOff=0", NULL } } },
-	{ 0, XF86XK_MonBrightnessUp,	spawn,		{.v = (const char*[]){ "xbacklight", "-inc", "15", NULL } } },
-	{ 0, XF86XK_MonBrightnessDown,	spawn,		{.v = (const char*[]){ "xbacklight", "-dec", "15", NULL } } },
+	{ 0, XF86XK_MonBrightnessUp,	spawn,		{.v = (const char*[]){ "xbacklight", "-inc", "5", NULL } } },
+	{ 0, XF86XK_MonBrightnessDown,	spawn,		{.v = (const char*[]){ "xbacklight", "-dec", "5", NULL } } },
 
 	/* { MODKEY|Mod4Mask,              XK_h,      incrgaps,       {.i = +1 } }, */
 	/* { MODKEY|Mod4Mask,              XK_l,      incrgaps,       {.i = -1 } }, */
@@ -338,7 +334,7 @@ static Button buttons[] = {
 	{ ClkStatusText,        0,              Button5,        sigdwmblocks,   {.i = 5} },
 	{ ClkStatusText,        ShiftMask,      Button1,        sigdwmblocks,   {.i = 6} },
 #endif
-	{ ClkStatusText,        ShiftMask,      Button3,        spawn,          SHCMD(TERMINAL " -e nvim ~/.local/src/dwmblocks/config.h") },
+	{ ClkStatusText,        ShiftMask,      Button3,        spawn,          SHCMD(TERMINAL " -e nvim ~/.local/sources/dwmblocks/config.h") },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        defaultgaps,	{0} },
 	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
