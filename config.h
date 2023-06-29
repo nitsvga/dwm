@@ -3,7 +3,7 @@
 /* Constants */
 #define TERMINAL "st"
 #define TERMCLASS "St"
-#define BROWSER "cleanwaterfox"
+#define BROWSER "cleanmercury"
 
 /* appearance */
 static unsigned int borderpx  = 3;        /* border pixel of windows */
@@ -16,7 +16,7 @@ static int swallowfloating    = 0;        /* 1 means swallow floating windows by
 static int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
 static int showbar            = 1;        /* 0 means no bar */
 static int topbar             = 1;        /* 0 means bottom bar */
-static char *fonts[]          = { "monospace:size=12", "NotoColorEmoji:pixelsize=11:antialias=true:autohint=true"  };
+static char *fonts[]          = { "monospace:size=14", "NotoColorEmoji:pixelsize=11:antialias=true:autohint=true"  };
 static char normbgcolor[]           = "#222222";
 static char normbordercolor[]       = "#444444";
 static char normfgcolor[]           = "#bbbbbb";
@@ -53,8 +53,9 @@ static const Rule rules[] = {
 	/* class    instance      title       	 tags mask    isfloating   isterminal  noswallow  monitor */
 	{ "Gimp",     NULL,       NULL,       	    1 << 8,       0,           0,         0,        -1 },
 	{ "discord",  NULL,       NULL,       	    1 << 2,       0,           0,         0,         1 },
-	{ NULL,       "qbittorrent",   NULL,       	    1 << 1,       0,           0,         0,        -1 },
+	{ NULL,       "qbittorrent",   NULL,       	1 << 1,       0,           0,         0,        -1 },
 	{ NULL,       NULL,       "Steam",    	    1 << 4,       0,           0,         0,         0 },
+	{ NULL,       NULL,       "CoreCtrl",    	1 << 4,       0,           0,         0,         0 },
 	{ NULL,       NULL,       "Default - Wine desktop",    	  1 << 4,      0,         0,         0, 0 },
 	{ TERMCLASS,  NULL,       NULL,       	    0,            0,           1,         0,        -1 },
 	{ NULL,       NULL,       "Event Tester",   0,            0,           0,         1,        -1 },
@@ -142,7 +143,7 @@ static Key keys[] = {
 	/* modifier                     key        function        argument */
 	STACKKEYS(MODKEY,                          focus)
 	STACKKEYS(MODKEY|ShiftMask,                push)
-	{ MODKEY|ShiftMask, XK_Escape,	spawn,	SHCMD(TERMINAL" -e nvim $DOCUMENTS/workspace/sources/dwm/config.h") }, 
+	{ MODKEY|ShiftMask, XK_Escape,	spawn,	SHCMD(TERMINAL " -e nvim $XDG_DOCUMENTS_DIR/workspace/sources/dwm/config.h") }, 
 	{ MODKEY,			XK_Delete,	spawn,	{.v = (const char*[]){ "dmenuunicode", NULL } } },
 	/* { MODKEY|ShiftMask,		XK_grave,	togglescratch,	SHCMD("") }, */
 	TAGKEYS(			XK_1,		0)
@@ -171,8 +172,8 @@ static Key keys[] = {
 	/* { MODKEY|ShiftMask,	XK_w,		spawn,		{.v = (const char*[]){ TERMINAL, "-e", "sudo", "nmtui", NULL } } }, */
 	{ MODKEY,			XK_e,	    spawn,  	{.v = (const char*[]){ "dmenuunicode", NULL } } },
 	{ MODKEY|ShiftMask,	XK_e,		spawn,		SHCMD(TERMINAL " -e htop") },
-	{ MODKEY,			XK_r,		spawn,		SHCMD(TERMINAL " -e ranger") },
-	{ MODKEY|ShiftMask,	XK_r,		spawn,		SHCMD(TERMINAL " -e sudo ranger /") },
+	{ MODKEY,			XK_r,		spawn,		SHCMD(TERMINAL " -e lfub") },
+	{ MODKEY|ShiftMask,	XK_r,		spawn,		SHCMD(TERMINAL " -e sudo /usr/bin/lf /") },
     /* layouts: 0 = tile, 1 = bstack, 2 = spiral, 3 = dwindle, 4 = deck, 5 = monocle, 6 = centeredmaster, 7 = centeredfloatingmaster */
 	{ MODKEY,			XK_t,		setlayout,	{.v = &layouts[0]} }, /* monocle */
 	{ MODKEY|ShiftMask,	XK_t,		setlayout,	{.v = &layouts[5]} }, /* centeredmaster */
@@ -198,8 +199,8 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,	XK_a,		defaultgaps,	{0} },
 	{ MODKEY,			XK_s,		togglesticky,	{0} },
 	{ MODKEY|ShiftMask, XK_s,   	spawn,		SHCMD("steam-screensaver-fix-runtime") }, 
-	{ MODKEY,			XK_d,		spawn,          {.v = (const char*[]){ "dmenu_run", NULL } } },
-	{ MODKEY|ShiftMask,	XK_d,		spawn,		SHCMD("discord-ptb") },
+	{ MODKEY,			XK_d,		spawn,      {.v = (const char*[]) { "dmenu_run", NULL } } },
+	{ MODKEY|ShiftMask,	XK_d,		spawn,		SHCMD("cleandiscord") },
 	{ MODKEY,			XK_f,		togglefullscr,	{0} },
 	{ MODKEY|ShiftMask,	XK_f,		spawn,	{.v = (const char*[]){ BROWSER, NULL } } },
 	{ MODKEY,			XK_g,		shiftview,	{ .i = -1 } },
@@ -225,21 +226,21 @@ static Key keys[] = {
 	{ MODKEY|ControlMask,   XK_x,		spawn,		SHCMD("pamixer -t --source 0") },
 	/* { MODKEY,			    XK_c,		spawn,		{.v = (const char*[]){ TERMINAL, "-e", "profanity", NULL } } }, */
     { MODKEY,       		XK_c,		spawn,		SHCMD("corectrl") },
-	{ MODKEY|ShiftMask,		XK_c,		spawn,		SHCMD("cpu-x") },
+	{ MODKEY|ShiftMask,		XK_c,       spawn,      {.v = (const char*[]) { "dmenuclip", NULL } } },
     { MODKEY|ShiftMask, 	XK_v,		spawn,		SHCMD("cleanvscodium") },
 	/* V is automatically bound above in STACKKEYS */
 	{ MODKEY,			    XK_b,		togglebar,	{0} },
-	{ MODKEY|ShiftMask,		XK_b,		spawn,		SHCMD("brave") },
+	{ MODKEY|ShiftMask,		XK_b,       spawn,      {.v = (const char*[]) { "dmenubookmarks", NULL } } },
 	{ MODKEY,			    XK_n,		spawn,		SHCMD(TERMINAL " -e nvim") },
     { MODKEY|ShiftMask,	    XK_n,		spawn,		SHCMD("pamixer -t --source 0") },
     /* { MODKEY|ShiftMask,	    XK_n,		spawn,		SHCMD(TERMINAL " -e newsboat") }, */
-	{ MODKEY,			    XK_m,		spawn,		{.v = (const char*[]){ TERMINAL, "-e", "ncmpcpp-ueberzug", NULL } } },
+	{ MODKEY,			    XK_m,		spawn,		{.v = (const char*[]) { TERMINAL, "-e", "ncmpcpp-ueberzug", NULL } } },
 	{ MODKEY|ShiftMask,	    XK_m,		spawn,		SHCMD("pamixer -t") },
-	{ MODKEY,			    XK_comma,	spawn,		{.v = (const char*[]){ "mpc", "prev", NULL } } },
-	{ MODKEY|ShiftMask,     XK_comma,	spawn,		{.v = (const char*[]){ "mpc", "volume", "-5", NULL } } },
+	{ MODKEY,			    XK_comma,	spawn,		{.v = (const char*[]) { "mpc", "prev", NULL } } },
+	{ MODKEY|ShiftMask,     XK_comma,	spawn,		{.v = (const char*[]) { "mpc", "volume", "-5", NULL } } },
     { MODKEY|ControlMask,   XK_comma,	focusmon,	{.i = -1 } },
-	{ MODKEY,			    XK_period,	spawn,		{.v = (const char*[]){ "mpc", "next", NULL } } },
-	{ MODKEY|ShiftMask,     XK_period,	spawn,		{.v = (const char*[]){ "mpc", "volume", "+5", NULL } } },
+	{ MODKEY,			    XK_period,	spawn,		{.v = (const char*[]) { "mpc", "next", NULL } } },
+	{ MODKEY|ShiftMask,     XK_period,	spawn,		{.v = (const char*[]) { "mpc", "volume", "+5", NULL } } },
 	{ MODKEY|ControlMask,   XK_period,	focusmon,   {.i = +1 } },
 
 	{ MODKEY,			    XK_Left,	focusmon,	{.i = -1 } },
@@ -251,7 +252,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,	    XK_Page_Up,	shifttag,	{ .i = -1 } },
 	{ MODKEY,			    XK_Page_Down,	shiftview,	{ .i = +1 } },
 	{ MODKEY|ShiftMask,	    XK_Page_Down,	shifttag,	{ .i = +1 } },
-	{ MODKEY,			    XK_Insert,	spawn,		SHCMD("xdotool type $(grep -v '^#' ~/.local/share/larbs/snippets | dmenu -i -l 50 | cut -d' ' -f1)") },
+//	{ MODKEY,			    XK_Insert,	spawn,		SHCMD("xdotool type $(grep -v '^#' ~/.local/share/skynet/bookmarks | dmenu -i -l 50 | cut -d' ' -f1)") },
 
 	{ MODKEY,			XK_F1,		spawn,		SHCMD("groff -mom /usr/local/share/dwm/larbs.mom -Tpdf | zathura -") },
 	{ MODKEY,			XK_F2,		spawn,		{.v = (const char*[]){ "tutorialvids", NULL } } },
@@ -267,7 +268,8 @@ static Key keys[] = {
     { MODKEY|ShiftMask, XK_F9,		spawn,		SHCMD(TERMINAL" -e newsboat") },
 	{ MODKEY,			XK_F10,		spawn,		{.v = (const char*[]){ "dmenumount", NULL } } },
 	{ MODKEY,			XK_F11,		spawn,		{.v = (const char*[]){ "dmenuumount", NULL } } },
-	{ MODKEY,			XK_F12,		spawn,		SHCMD("setxkbmap latam & notify-send \"⌨️ Keyboard remapping...\" \"Re-running keyboard defaults for any newly plugged-in keyboards.\"") },
+	{ MODKEY,			XK_F12,		spawn,		{.v = (const char*[]){ "dmenukeymapper", NULL } } },
+//	{ MODKEY,			XK_F12,		spawn,		SHCMD("setxkbmap latam & xinput --set-prop 11 'libinput Accel Speed' -1 & notify-send \"⌨️ Keyboard remapping and senstivity adjusting...\" \"Re-running keyboard defaults for any newly plugged-in keyboards.\"") },
 	{ MODKEY,			XK_space,	zoom,		{0} },
 	{ MODKEY|ShiftMask,	XK_space,	togglefloating,	{0} },
 
@@ -337,8 +339,9 @@ static Button buttons[] = {
 	{ ClkStatusText,        0,              Button4,        sigdwmblocks,   {.i = 4} },
 	{ ClkStatusText,        0,              Button5,        sigdwmblocks,   {.i = 5} },
 	{ ClkStatusText,        ShiftMask,      Button1,        sigdwmblocks,   {.i = 6} },
+	{ ClkStatusText,        ControlMask,    Button1,        sigdwmblocks,   {.i = 7} },
 #endif
-	{ ClkStatusText,        ShiftMask,      Button3,        spawn,          SHCMD(TERMINAL " -e nvim ~/.local/src/dwmblocks/config.h") },
+	{ ClkStatusText,        ShiftMask,      Button3,        spawn,          SHCMD(TERMINAL " -e nvim ~/.local/sources/dwmblocks/config.h") },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        defaultgaps,	{0} },
 	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
